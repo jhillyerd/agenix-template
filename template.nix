@@ -16,10 +16,19 @@ let
         vars = mkOption {
           type = attrsOf path;
           description = ''
-            Mapping of variable names to files.
+            Mapping of variable names to files, typical usage:
+
+            `<var-name> = config.age.secrets.<age-secret-name>.path;`
+
             Names must start with a lowercase letter and be valid bash "names."
           '';
           default = { };
+          example = literalExpression ''
+            vars = {
+              consulToken = config.age.secrets.nomad-consul-token.path;
+              encrypt = config.age.secrets.nomad-encrypt.path;
+            };
+          '';
         };
 
         content = mkOption {
@@ -29,6 +38,16 @@ let
             `$name` will be replaced with the content of file in `vars.name`
           '';
           default = "";
+          example = literalExpression ''
+            content = '''
+              consul {
+                token = "$consulToken"
+              }
+              server {
+                encrypt = "$encrypt"
+              }
+            ''';
+          '';
         };
 
         path = mkOption {
