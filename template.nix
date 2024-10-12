@@ -62,7 +62,7 @@ in
     directory = mkOption {
       type = types.path;
       description = "Default directory to create output files in";
-      default = "/run/template";
+      default = "/run/agenix-template";
     };
 
     files = mkOption {
@@ -78,7 +78,7 @@ in
 
       mkScript = name: entry:
         let
-          templateName = "template-" + name;
+          templateName = "agenix-template-" + name;
           content = if hasSuffix "\n" entry.content then entry.content else entry.content + "\n";
 
           eDir = escapeShellArg (dirOf entry.path);
